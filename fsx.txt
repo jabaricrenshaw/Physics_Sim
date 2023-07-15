@@ -1,0 +1,8 @@
+Useful physics funtions:
+
+(SUM)F = ma
+
+vel = Δpos / Δt
+accel = Δvel / Δt
+
+Δx = V_0*t + ½at2

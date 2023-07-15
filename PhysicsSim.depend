@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1689383895 source:/home/jabari/Documents/Coding/gfx/PhysicsSim/PhysicsSim/main.cpp
+	<iostream>
+	<vector>
+	<time.h>
+	"include/raylib.h"
+
+1689116795 /home/jabari/Documents/Coding/gfx/PhysicsSim/PhysicsSim/include/raylib.h
+	<stdarg.h>
+	<stdbool.h>
+
+1689380754 /home/jabari/Documents/Coding/gfx/PhysicsSim/PhysicsSim/object.h
+
+1689380754 /home/jabari/Documents/Coding/gfx/PhysicsSim/PhysicsSim/Object.h
+
+1689381298 source:/home/jabari/Documents/Coding/gfx/PhysicsSim/PhysicsSim/Object.cpp
+	<iostream>
+	"Object.h"
+
