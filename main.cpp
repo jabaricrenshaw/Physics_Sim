@@ -25,30 +25,32 @@ public:
     };
 
     void update(float d_t){
-        //Gravity calculations
-        //Position
-        Pair_2 new_pos = {
-            this->pos.x,
-            this->pos.y + this->vel.y * d_t - (0.5f * f_gravity * f_gravity) * -1
-        };
+        if(this->getPos().y >= HEIGHT - 50){
+            this->setForce(Pair_2{ this->force.x, 0 });
+            this->setAcc(Pair_2 {this->acc.x, 0 });
+            this->setVel(Pair_2 { this->vel.x, 0 });
+            this->setPos(Pair_2 {this->pos.x, HEIGHT - 50 });
+            return;
+        }
 
-        //Velocity
-        Pair_2 new_vel = {
-            this->vel.x,
-            this->vel.y - (f_gravity * d_t) * -1
-        };
+        //this->setForce( Pair_2{ this->force.x, this->mass * f_gravity });
+        this->setAcc(Pair_2 { this->force.x, this->force.y / this->mass });
+        this->setVel(Pair_2 { this->vel.x, this->vel.y + this->acc.y * d_t });
+        this->setPos(Pair_2 { this->pos.x, this->vel.y + 0.5f * this->acc.y * d_t * d_t});
 
-        this->pos = new_pos;
-        this->vel = new_vel;
+        //printf("Force: %f   Accel: %f   Vel: %f     Pos: %f\n", this->force.y, this->acc.y, this->vel.y, this->pos.y);
     }
 
-    void applyForce(Pair_2 force){
-        Pair_2 new_force = {
-            this->getForce().x + force.x,
-            this->getForce().y + force.y
-        };
-        this->force = new_force;
-        this->f_gravity = 0;
+    void applyForce(Pair_2 force, float d_t){
+        // F = ma
+        /*
+        this->setForce(Pair_2{ this->force.x, 0 });
+        this->setAcc(Pair_2 { this->acc.x, 0 });
+        this->setVel(Pair_2 { this->vel.x, 0 });
+        this->setPos(Pair_2 { this->pos.x, 0 });
+        */
+
+        std::cout << "Apply: "<< this->getPos().x << ' ' << this->getPos().y << std::endl;
     }
 
     Pair_2 getPos(){ return this->pos; }
@@ -77,7 +79,7 @@ int main(int argc, char** argv){
 
     std::vector<Object> objects;
     objects.push_back(
-        Object(Pair_2{400.0f, 500.0f})
+        Object(Pair_2{WIDTH/2, HEIGHT/2})
     );
     float time = 0;
 
@@ -89,17 +91,18 @@ int main(int argc, char** argv){
         switch(state){
         case STATE_CONTINUE:
 
-            //ClearBackground(DARKBROWN);
+            ClearBackground(DARKBROWN);
             time += GetFrameTime();
             for(size_t i = 0; i < objects.size(); ++i){
+                objects[i].update(time);
                 if(IsKeyDown(KEY_SPACE)){
-                    objects[i].applyForce(Pair_2 {0, 100});
-                    std::cout << objects[i].getForce().x << ' ' << objects[i].getForce().y << std::endl;
-                    std::cout << objects[i].getPos().x << ' ' << objects[i].getPos().y << std::endl;
-                }else{
-                    objects[i].update(time);
+                    objects[i].applyForce(Pair_2 {0, 50}, time);
+                    //std::cout << objects[i].getForce().x << ' ' << objects[i].getForce().y << std::endl;
+                    //std::cout << objects[i].getPos().x << ' ' << objects[i].getPos().y << std::endl;
                 }
                 DrawCircle(objects[i].getPos().x, objects[i].getPos().y, 50, RED);
+                //printf("Force: %f   Accel: %f   Vel: %f     Pos: %f\n", objects[i].getForce().y, objects[i].getAcc().y, objects[i].getVel().y, objects[i].getPos().y);
+                //std::cout << objects[i].getPos().x << ' ' << objects[i].getPos().y << std::endl;
                 //printf("I-> x: %f   y: %d\n", objects[i].getPos().x, objects[i].getPos().y);
             }
 
