@@ -3,6 +3,7 @@
 #include "Object.h"
 
 
+/*
 Object::Object(Pair_2 pos){
     this->pos = pos;
     this->acc = Pair_2 {0, 0};
@@ -14,7 +15,7 @@ void Object::update(float d_t){
     //Gravity calculations
 
     //Position
-    /*
+
     Pair_2 new_pos = {
         400,
         this->pos.y + this->vel.y * d_t - (0.5f * f_gravity * f_gravity)
@@ -26,7 +27,7 @@ void Object::update(float d_t){
         300,
         this->vel.y - (f_gravity * d_t)
     };
-    */
+
 
     //Force
     this->pos.y = this->pos.y + 5;
@@ -58,3 +59,4 @@ Pair_2 pos {0, 0};
 Pair_2 acc {0, 0};
 Pair_2 vel {0, 0};
 Pair_2 force {0, 0};
+*/

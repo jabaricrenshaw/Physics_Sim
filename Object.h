@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 typedef struct {
     float x;
     float y;
@@ -22,3 +22,4 @@ private:
     Pair_2 vel {0, 0};
     Pair_2 force {0, 0};
 };
+*/

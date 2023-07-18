@@ -16,44 +16,39 @@ typedef struct {
 
 class Object {
 public:
-    Object(const Pair_2 &pos){
+    Object(Pair_2 pos){
+        this->mass = 100.0f;
         this->pos = pos;
         this->acc = Pair_2 {0, 0};
         this->vel = Pair_2 {0, 0};
-        this->force = Pair_2 {0, 0};
+        this->force = Pair_2 {0, this->mass * f_gravity};
     };
 
-    void update(const float &d_t){
+    void update(float d_t){
         //Gravity calculations
         //Position
         Pair_2 new_pos = {
             this->pos.x,
-            this->pos.y + this->vel.y * d_t - (0.5f * f_gravity * f_gravity)
+            this->pos.y + this->vel.y * d_t - (0.5f * f_gravity * f_gravity) * -1
         };
 
         //Velocity
         Pair_2 new_vel = {
             this->vel.x,
-            this->vel.y - (f_gravity * d_t)
+            this->vel.y - (f_gravity * d_t) * -1
         };
-
-        //Force
-
-        if(new_pos.y > HEIGHT){
-            new_pos.y = HEIGHT;
-        }
-        if(new_pos.y < 0){
-            new_pos.y = 0;
-        }
-        if(new_pos.x > WIDTH){
-            new_pos.x = WIDTH;
-        }
-        if(new_pos.x < 0){
-            new_pos.x = 0;
-        }
 
         this->pos = new_pos;
         this->vel = new_vel;
+    }
+
+    void applyForce(Pair_2 force){
+        Pair_2 new_force = {
+            this->getForce().x + force.x,
+            this->getForce().y + force.y
+        };
+        this->force = new_force;
+        this->f_gravity = 0;
     }
 
     Pair_2 getPos(){ return this->pos; }
@@ -61,10 +56,10 @@ public:
     Pair_2 getVel(){ return this->vel; }
     Pair_2 getForce(){ return this->force; }
 
-    ~Object(){ }
 
 private:
     float f_gravity = 9.807f;
+    float mass;
     Pair_2 pos;
     Pair_2 acc;
     Pair_2 vel;
@@ -82,7 +77,7 @@ int main(int argc, char** argv){
 
     std::vector<Object> objects;
     objects.push_back(
-        Object(Pair_2{400.0f, 300.0f})
+        Object(Pair_2{400.0f, 500.0f})
     );
     float time = 0;
 
@@ -94,12 +89,18 @@ int main(int argc, char** argv){
         switch(state){
         case STATE_CONTINUE:
 
-            ClearBackground(DARKBROWN);
+            //ClearBackground(DARKBROWN);
             time += GetFrameTime();
             for(size_t i = 0; i < objects.size(); ++i){
-                objects[i].update(time);
-                //printf("I-> x: %f   y: %d\n", objects[i].getPos().x, objects[i].getPos().y);
+                if(IsKeyDown(KEY_SPACE)){
+                    objects[i].applyForce(Pair_2 {0, 100});
+                    std::cout << objects[i].getForce().x << ' ' << objects[i].getForce().y << std::endl;
+                    std::cout << objects[i].getPos().x << ' ' << objects[i].getPos().y << std::endl;
+                }else{
+                    objects[i].update(time);
+                }
                 DrawCircle(objects[i].getPos().x, objects[i].getPos().y, 50, RED);
+                //printf("I-> x: %f   y: %d\n", objects[i].getPos().x, objects[i].getPos().y);
             }
 
             break;
