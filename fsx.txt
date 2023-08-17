@@ -1,8 +1,25 @@
+TODO:
+1.
+Figure out why horizontal movement is so slow, lmao
+Specifying smaller mass size moves the Object faster horizontally but not vertically
+
+2.
+Add optional function parameters for Object constructor.
+This is needed to select Shape and Size
+...or...
+Create classes for acceptable shapes
+Instead of object class create Circle, Square, Triangle class...
+
+3. Add collision detection (preliminary, assuming objects are equal size circles)
+
+
 Useful physics funtions:
-
 (SUM)F = ma
-
 vel = Δpos / Δt
 accel = Δvel / Δt
-
 Δx = V_0*t + ½at2
+
+Δt = Frame time difference (using Raylib::GetFrameTime())
+
+
+
