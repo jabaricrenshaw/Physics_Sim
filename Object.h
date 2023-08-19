@@ -18,7 +18,7 @@ public:
     Object(const Pair_2 &pos, const float &mass, const Color &color, const Pair_2 &acc = Pair_2 {0.f, 0.f}, const Pair_2 &vel = Pair_2 {0.f, 0.f});
     void update(const float &d_t);
     void applyForce(const Pair_2 &force, const float &d_t);
-    bool collidesWith(Object &obj);
+    bool collidesWith(Object &obj, const float &d_t);
     const Pair_2 &getPos();
     const Pair_2 &getAcc();
     const Pair_2 &getVel();
@@ -30,7 +30,8 @@ public:
 private:
     const float f_gravity = 9.80665f;
     float mass;
-    Pair_2 pos, acc, vel, force;
+    float gpe;
+    Pair_2 pos, acc, vel, force, ke;
     Color color;
 
     void setPos(Pair_2 pos);
