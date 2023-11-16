@@ -7,10 +7,10 @@
 #define HEIGHT  600
 #define FPS     60
 
-typedef struct {
+struct Pair_2 {
     float x = 0.f;
     float y = 0.f;
-} Pair_2;
+};
 
 
 class Object {
